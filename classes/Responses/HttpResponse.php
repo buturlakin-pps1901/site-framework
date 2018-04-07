@@ -17,7 +17,14 @@ class HttpResponse
 
     private $_contentType=self::CONTENT_TYPE_TEXTHTML;
     private $_contentEncoding=self::ENCODING_UTF8;
+    private $_content;
 
+    function __construct($content='',$contentType="text/html",$contentEncoding="utf8")
+    {
+        $this->_content=$content;
+        $this->_contentType=$contentType;
+        $this->_contentEncoding=$contentEncoding;
+    }
 
     function getContentType():string{
         $ct=$this->_contentType;
@@ -26,6 +33,10 @@ class HttpResponse
         }else{
             return "Content-Type: ".$this->_contentType;
         }
+    }
+
+    function processResponse(){
+
     }
 
     function setContentType($contentType):void{
