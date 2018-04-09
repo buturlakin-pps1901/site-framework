@@ -9,8 +9,10 @@
 namespace SiteFramework\Requests;
 
 
+use SiteFramework\Responses\HttpResponse;
+
 abstract class HttpRequest
 {
-    abstract function GetResponse();
+    abstract function GetResponse():HttpResponse;
 
 }

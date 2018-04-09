@@ -18,6 +18,7 @@ class HttpResponse
     private $_contentType=self::CONTENT_TYPE_TEXTHTML;
     private $_contentEncoding=self::ENCODING_UTF8;
     private $_content;
+    private $_echoContentFunction=null;
 
     function __construct($content='',$contentType="text/html",$contentEncoding="utf8")
     {
@@ -26,7 +27,7 @@ class HttpResponse
         $this->_contentEncoding=$contentEncoding;
     }
 
-    function getContentType():string{
+    function GetContentType():string{
         $ct=$this->_contentType;
         if($ct==self::CONTENT_TYPE_TEXTHTML){
             return "Content-Type: ".$ct."; encoding=".$this->_contentEncoding;
@@ -35,15 +36,39 @@ class HttpResponse
         }
     }
 
-    function processResponse(){
-
+    /**
+     * @param callable $function
+     */
+    function SetEchoContentFunction(callable $function)
+    {
+        $this->_echoContentFunction=$function;
     }
 
-    function setContentType($contentType):void{
+
+    /**
+     * This method send headers to browser
+     */
+    function SendHeaders():void{
+        header($this->GetContentType());
+    }
+
+    /**
+     * This method send response data to browser
+     */
+    function SendResponse():viod{
+        $this->SendHeaders();
+        if($this->_echoContentFunction==null){
+            echo $this->_content;
+        }else{
+            call_user_func($this->_echoContentFunction);
+        }
+    }
+
+    function SetContentType($contentType):void{
         $this->_contentType=$contentType;
     }
 
-    function setEncoding($encoding){
+    function SetEncoding($encoding):void{
         $this->_contentEncoding=$encoding;
     }
 }
