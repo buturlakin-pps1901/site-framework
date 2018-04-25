@@ -37,6 +37,7 @@ class HttpResponse
     }
 
     /**
+     * Задаем callback функцию, которая должна напечатать тело ответа
      * @param callable $function
      */
     function SetEchoContentFunction(callable $function)
@@ -45,17 +46,18 @@ class HttpResponse
     }
 
 
+
     /**
      * This method send headers to browser
      */
-    function SendHeaders():void{
+    function SendHeaders(){
         header($this->GetContentType());
     }
 
     /**
      * This method send response data to browser
      */
-    function SendResponse():viod{
+    function SendResponse(){
         $this->SendHeaders();
         if($this->_echoContentFunction==null){
             echo $this->_content;
@@ -64,11 +66,11 @@ class HttpResponse
         }
     }
 
-    function SetContentType($contentType):void{
+    function SetContentType($contentType){
         $this->_contentType=$contentType;
     }
 
-    function SetEncoding($encoding):void{
+    function SetEncoding($encoding){
         $this->_contentEncoding=$encoding;
     }
 }
